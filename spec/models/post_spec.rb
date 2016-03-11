@@ -8,7 +8,7 @@ RSpec.describe Post, type: :model do
       expect(post).to respond_to(:title)
     end
 
-    it "resonds to body" do
+    it "responds to body" do
       expect(post).to respond_to(:body)
     end
   end
