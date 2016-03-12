@@ -1,10 +1,14 @@
 <h1>You're in the Posts Page!</h1>
-<% @posts.each do |post| %>
+<% @posts.each_with_index do |post, index| %>
   <div class="media">
     <div class="media-body">
       <h4 class="meadia-heading">
-        <p><%= link_to post.title, post %></p>
-      </h4>
+        <% if index == 0 || (index+1)%5 == 0 %>
+          <p><%= link_to "SPAM", post %></p>
+        <%else%>
+          <p><%= link_to post.title, post %></p>
+        <%end%>
+       </h4>
     </div>
   </div>
 <% end %>
