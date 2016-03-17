@@ -1,8 +1,18 @@
-<div class="row">
-  <h1> Welcome to Questions</h1>
-</div>  
-    <% @questions.each do |question| %>
-      <h3><%= link_to question.title, question %></h3>
-      <p>Resolved?</p>
-      <p><%= question.resolved ? "yes": "no" %></p>
-    <% end %>
+<div clas="row">
+  <div class="col-md-6">
+    <h1>Welcome to Questions</h1>
+  </div>
+  <div class="col-md-6">
+    <h1>Resolved?</h1>
+  </div>
+</div>
+<% @questions.each do |question| %>
+  <div class="row">
+    <div class="col-md-6">
+    <h4><%= link_to question.title, question %></h4>
+    </div>
+    <div class="col-md-6">
+    <h4><%= question.resolved ? "yes": "no" %></h4>
+  </div>
+  </div>
+<% end %>
