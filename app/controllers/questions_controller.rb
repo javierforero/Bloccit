@@ -56,5 +56,4 @@ class QuestionsController < ApplicationController
       render :show
     end
   end
-
 end
