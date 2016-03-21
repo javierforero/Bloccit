@@ -44,9 +44,17 @@ end
   resolved: false
   )
 end
+
+50.times do SponsoredPost.create!(
+  title: RandomData.random_sentence,
+  body: RandomData.random_paragraph,
+  price: RandomData.random_price
+  )
+end
 puts "Seed finished"
 puts "#{Topic.count} topics created"
 puts "#{Post.count} posts created"
 puts "#{Comment.count} comments created"
 puts "#{Advertisement.count} advertisements created"
 puts "#{Question.count} questions created"
+puts "#{SponsoredPost.count} sponsored posts created"
