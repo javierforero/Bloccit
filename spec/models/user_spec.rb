@@ -26,18 +26,25 @@ RSpec.describe User, type: :model do
       expect(user).to respond_to(:email)
     end
   end
-  
+
   describe "invalid user" do
     let(:user_with_invalid_name) { User.new(name: "", email: "user@bloccit.com") }
     let(:user_with_invalid_email) { User.new(name: "Bloccit User", email: "") }
 
-    it "should be an invalid user due to blank name" do
-      expect(user_with_invalid_name).to_not be_valid
-    end
+      it "should be an invalid user due to blank name" do
+        expect(user_with_invalid_name).to_not be_valid
+      end
 
-    it "should be an invalid user due to blank email" do
-      expect(user_with_invalid_email).to_not be_valid
-    end
+      it "should be an invalid user due to blank email" do
+        expect(user_with_invalid_email).to_not be_valid
+      end
+  end
 
+  describe "callback capitalize first and lastname" do
+    let(:my_user) { User.create!(name: "john frida", email: "user@bloccit.com", password: "password")}
+
+    it "Capitalizes the first and lastname" do
+      expect(my_user.name).to eq("John Frida")
+    end
   end
 end
