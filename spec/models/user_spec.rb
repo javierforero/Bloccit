@@ -41,8 +41,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "callback capitalize first and lastname" do
-    let(:my_user) { User.create!(name: "john frida", email: "user@bloccit.com", password: "password")}
-
+    let(:my_user) { User.create!(name: "john frida", email: "papi@bloccit.com", password: "password")}
     it "Capitalizes the first and lastname" do
       expect(my_user.name).to eq("John Frida")
     end
