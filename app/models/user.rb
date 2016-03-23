@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   before_save { self.email = email.downcase}
   before_save do
-    self.name = name.split(' ').map {|name| name.capitalize}.join(' ') if name 
+    self.name = name.split(' ').map {|name| name.capitalize }.join(' ') if name
   end
   validates :name, length: { minimum: 1, maximum: 100 }, presence: true
 
