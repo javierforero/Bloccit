@@ -13,14 +13,13 @@
       <li><%= link_to "Home", root_path %></li>
       <li><%= link_to "About", about_path %></li>
       <li><%= link_to "Topics", topics_path %></li>
-      <li class="pull-right avatarpadding"><%= image_tag(avatar_url(current_user))%></li>
       <% if current_user %>
-      <li class="pull-right" id="sign_in_out"><%= current_user.name %> - <%= link_to "Sign Out", session_path(current_user), method: :delete %>
+        <li class="pull-right avatarpadding"><%= image_tag(avatar_url(current_user))%></li>
+        <li class="pull-right" id="sign_in_out"><%= current_user.name %> - <%= link_to "Sign Out", session_path(current_user), method: :delete %></li>
       <% else %>
-        <%= link_to "Sign In", new_session_path %> or
-        <%= link_to "Sign Up", new_user_path %>
+        <li class="pull-right"><%= link_to "Sign In", new_session_path %></li>
+        <li class="pull-right"><%= link_to "Sign Up", new_user_path %></li>
       <% end %>
-      </li>
     </ul>
 
 
