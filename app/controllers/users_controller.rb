@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:notice] = "Welcome to Bloccit #{@user.name}!"
+      create_session(@user)      
       redirect_to root_path
     else
       flash[:alert] = "Unable to create user. Please try again"
@@ -24,6 +25,6 @@ class UsersController < ApplicationController
     @user.name = params[:user][:name]
     @user.email = params[:user][:email]
     @user.password = params[:user][:password]
-    @user.password_confirmation = params[:user][:password_confirmation]    
+    @user.password_confirmation = params[:user][:password_confirmation]
   end
 end
