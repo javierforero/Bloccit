@@ -51,17 +51,18 @@ end
   )
 end
 
-user = User.first
-user.update_attributes!(
-  email: 'javierforero01@gmail.com',
-  password: '12345Tri'
+admin = User.create!(
+  name:     'Admin User',
+  email:    'admin@example.com',
+  password: 'helloworld',
+  role:     'admin'
 )
 
-#unique post
- # unique_post = Post.find_or_create_by(title: "Unique Post", body:  "I am an unique post", user: user)
- # unique_post.comments.find_or_create_by(
- #    body: "I am a comment in the unique post"
- #  )
+member = User.create!(
+  name:     'Member User',
+  email:    'member@example.com',
+  password: 'helloworld'
+)
 
 puts "Seed finished"
 puts "#{User.count} users created"
