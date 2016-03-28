@@ -1,8 +1,0 @@
-<div class="row">
-  <h1> Welcome to Questions</h1>
-</div>  
-    <% @questions.each do |question| %>
-      <h3><%= link_to question.title, question %></h3>
-      <p>Resolved?</p>
-      <p><%= question.resolved ? "yes": "no" %></p>
-    <% end %>
