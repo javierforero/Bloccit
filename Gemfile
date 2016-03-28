@@ -34,3 +34,5 @@
  gem 'bootstrap-sass'
 
  gem 'bcrypt'
+
+ gem 'pundit'

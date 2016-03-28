@@ -1,6 +1,8 @@
 class PostsController < ApplicationController
   before_action :require_sign_in, except: :show
   before_action :authorize_user, except: [:show, :new, :create]
+  before_action :moderator_check, except: [:show,:edit, :update]
+
   def show
     @post = Post.find(params[:id])
   end
@@ -69,5 +71,18 @@ class PostsController < ApplicationController
     flash[:alert] = "You must be an admin to do that."
     redirect_to [post.topic, post]
   end
+ end
+
+ def moderator_check
+   check_for_key = params.has_key?(:id)
+   unless !current_user.moderator?
+     flash[:alert] = "You must be an admin to do that."
+     if check_for_key
+       post = Post.find(params[:id])
+       redirect_to [post.topic, post]
+     else
+       redirect_to topic_path(params[:topic_id])
+     end
+   end
  end
 end
