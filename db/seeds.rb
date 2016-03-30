@@ -33,22 +33,9 @@ posts = Post.all
 100.times do
   Comment.create!(
   user: users.sample,
-  post: posts.sample,
+  commentable: posts.sample,
+  commentable: topics.sample,
   body: RandomData.random_paragraph
-  )
-end
-
-50.times do Advertisement.create!(
-  title: RandomData.random_sentence,
-  body: RandomData.random_paragraph,
-  price: RandomData.random_price
-  )
-end
-
-50.times do Question.create!(
-  title: RandomData.random_sentence,
-  body: RandomData.random_paragraph,
-  resolved: false
   )
 end
 
@@ -70,5 +57,3 @@ puts "#{User.count} users created"
 puts "#{Topic.count} topics created"
 puts "#{Post.count} posts created"
 puts "#{Comment.count} comments created"
-puts "#{Advertisement.count} advertisements created"
-puts "#{Question.count} questions created"

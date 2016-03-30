@@ -1,31 +1,44 @@
 class CommentsController < ApplicationController
   before_action :require_sign_in
   before_action :authorize_user, only: [:destroy]
-
+  before_action :is_commentable_post?
   def create
-    @post = Post.find(params[:post_id])
-    comment = @post.comments.new(comment_params)
-    comment.user = current_user
 
-    if comment.save
+      @comment = @commentable.comments.new(comment_params)
+      @comment.user = current_user
+
+    if @comment.save && is_commentable_post?
       flash[:notice] = "Comment saved successfully."
-      redirect_to [@post.topic, @post]
+      redirect_to topic_post_path(@commentable, @commentable)
+    elsif @comment.save && !is_commentable_post?
+      flash[:notice] = "Comment saved successfully."
+      redirect_to @commentable
+    elsif is_commentable_post?
+      flash[:alert] = "Comments failed to save"
+      redirect_to topic_post_path(@commentable, @commentable)
     else
       flash[:alert] = "Comments failed to save"
-      redirect_to [@post.topic, @post]
+      redirect_to @commentable
     end
   end
 
   def destroy
-    @post = Post.find(params[:post_id])
-    comment = @post.comments.find(params[:id])
 
-    if comment.destroy
+      @comment = @commentable.comments.find(params[:id])
+
+    if @comment.destroy && is_commentable_post?
+
       flash[:notice] = "Comment was deleted."
-      redirect_to [@post.topic, @post]
+      redirect_to topic_post_path(@commentable, @commentable)
+    elsif @comment.destroy && !is_commentable_post?
+      flash[:notice] = "Comment was deleted."
+      redirect_to @commentable
+    elsif is_commentable_post?
+      flash[:alert] = "Comments failed to save"
+      redirect_to topic_post_path(@commentable, @commentable)
     else
-      flash[:alert] = "Comment couldn't be deleted. Try again."
-      redirect_to [@post.topic, @post]
+      flash[:alert] = "Comments failed to save"
+      redirect_to @commentable
     end
   end
 
@@ -42,5 +55,7 @@ class CommentsController < ApplicationController
       redirect_to [comment.post.topic, comment.post]
     end
   end
-
+ def is_commentable_post?
+   @commentable.class == Post
+ end
 end

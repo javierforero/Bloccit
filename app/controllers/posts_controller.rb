@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :require_sign_in, except: :show
   before_action :authorize_user, except: [:show, :new, :create]
+
   def show
     @post = Post.find(params[:id])
   end
@@ -71,4 +72,5 @@ class PostsController < ApplicationController
     redirect_to [post.topic, post]
   end
  end
+
 end
