@@ -76,6 +76,7 @@ RSpec.describe Post, type: :model do
   describe "after_create post" do
 
     let(:new_post) { topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user) }
+
     it "updates vote up after create" do
       expect(user.votes.where(post: new_post).count).to eq(1)
     end
