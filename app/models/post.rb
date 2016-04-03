@@ -5,12 +5,14 @@ class Post < ActiveRecord::Base
   has_many :labelings, as: :labelable
   has_many :labels, through: :labelings
   has_many :votes, dependent: :destroy
-
+  has_many :favorites, dependent: :destroy
+  
   default_scope { order('rank DESC') }
 
   scope :ordered_by_title, -> {order('title ASC')}
   scope :ordered_by_reverse_created_at, -> { order('created_at ASC') }
 
+  validates :user, presence: true
   validates :title, length: { minimum: 5 }, presence: true
   validates :body, length: { minimum: 20 }, presence: true
   validates :topic, presence: true

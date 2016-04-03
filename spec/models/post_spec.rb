@@ -17,7 +17,7 @@ RSpec.describe Post, type: :model do
   it { is_expected.to have_many(:labelings) }
   it { is_expected.to have_many(:labels).through(:labelings) }
   it { is_expected.to have_many(:votes)}
-
+  it { is_expected.to have_many(:favorites)}
   describe "attributes" do
     it "responds to title" do
       expect(post).to respond_to(:title)
