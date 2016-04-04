@@ -3,6 +3,10 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def show
+    @user = User.find(params[:id]) 
+  end
+
   def create
     @user = User.new
     @user.name = params[:user][:name]
@@ -12,7 +16,7 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:notice] = "Welcome to Bloccit #{@user.name}!"
-      create_session(@user)      
+      create_session(@user)
       redirect_to root_path
     else
       flash[:alert] = "Unable to create user. Please try again"
