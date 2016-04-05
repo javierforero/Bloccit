@@ -5,6 +5,7 @@ include SessionsHelper
 RSpec.describe TopicsController, type: :controller do
    let(:my_topic) { create(:topic) }
    let(:my_private_topic) { create(:topic, public: false) }
+   
   context "guest" do
     describe "GET index" do
       it "returns http success" do
