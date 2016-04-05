@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
+  let(:user) { create(:user)}
 
   let(:new_user_attributes) do
     {
@@ -82,5 +83,17 @@ RSpec.describe UsersController, type: :controller do
       get :show, {id: factory_user.id}
       expect(assigns(:user)).to eq(factory_user)
     end
+  end
+
+  describe "testing favortie collections" do
+
+    it "tests that @user responds to favorites" do
+      expect(user).to respond_to(:favorites)
+    end
+
+    it "reponds to its avatar" do
+      expect(user).to respond_to(:avatar_url)
+    end
+
   end
 end
