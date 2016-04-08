@@ -85,14 +85,22 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe "testing favortie collections" do
+  describe "testing favorite collections" do
+    let(:my_topic) { create(:topic) }
+    let(:other_user){ create(:user, email: "uniq@email.com") }
+    let(:my_other_user_post) { create(:post, user: other_user, topic: my_topic)}
+    let!(:favorite_post) { user.favorites.create!(post: my_other_user_post)}
 
     it "tests that @user responds to favorites" do
       expect(user).to respond_to(:favorites)
     end
 
-    it "reponds to its avatar" do
-      expect(user).to respond_to(:avatar_url)
+    it "have the post author's avatar" do
+      get :show, {id: user.id}
+      favorite_posts = assigns(:user).favorites
+      expect(favorite_posts.count).to eq 1
+      favorite_post_author_avatar = favorite_posts.first.post.user.avatar_url(48)
+      expect(favorite_post_author_avatar).to eq(other_user.avatar_url(48))
     end
 
   end
