@@ -6,6 +6,7 @@ RSpec.describe CommentsController, type: :controller do
   let(:my_topic) { Topic.create!(name:  RandomData.random_sentence, description: RandomData.random_paragraph) }
   let(:my_post) { my_topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: my_user) }
   let(:my_comment) { Comment.create!(body: 'Comment Body', commentable: my_post, user: my_user) }
+  let(:comment_params) { { body: RandomData.random_paragraph } }
   before { request.env["HTTP_REFERER"] = referring_route }
 
   context 'Comments on Posts' do
@@ -13,7 +14,7 @@ RSpec.describe CommentsController, type: :controller do
     context "guest" do
       describe "POST create" do
         it "redirects the user to the sign in view" do
-          post :create, post_id: my_post.id, comment: {body: RandomData.random_paragraph}
+          post :create, post_id: my_post.id, comment: comment_params
           expect(response).to redirect_to(new_session_path)
         end
       end
@@ -34,11 +35,11 @@ RSpec.describe CommentsController, type: :controller do
 
       describe "POST create" do
         it "increases the number of comments by 1" do
-          expect{ post :create, post_id: my_post.id, comment: {body: RandomData.random_sentence} }.to change(Comment,:count).by(1)
+          expect{ post :create, post_id: my_post.id, comment: comment_params }.to change(Comment,:count).by(1)
         end
 
         it "redirects to the post show view" do
-          post :create, post_id: my_post.id, comment: {body: RandomData.random_sentence}
+          post :create, post_id: my_post.id, comment: comment_params
           expect(response).to redirect_to [my_topic, my_post]
         end
       end
@@ -60,11 +61,11 @@ RSpec.describe CommentsController, type: :controller do
 
       describe "POST create" do
         it "increases the number of comments by 1" do
-          expect{ post :create, post_id: my_post.id, comment: {body: RandomData.random_sentence} }.to change(Comment,:count).by(1)
+          expect{ post :create, post_id: my_post.id, comment: comment_params }.to change(Comment,:count).by(1)
         end
 
         it "redirects to the post show view" do
-          post :create, post_id: my_post.id, comment: {body: RandomData.random_sentence}
+          post :create, post_id: my_post.id, comment: comment_params
           expect(response).to redirect_to [my_topic, my_post]
         end
       end
@@ -92,11 +93,11 @@ RSpec.describe CommentsController, type: :controller do
 
       describe "POST create" do
         it "increases the number of comments by 1" do
-          expect{ post :create, post_id: my_post.id, comment: {body: RandomData.random_sentence} }.to change(Comment,:count).by(1)
+          expect{ post :create, post_id: my_post.id, comment: comment_params }.to change(Comment,:count).by(1)
         end
 
         it "redirects to the post show view" do
-          post :create, post_id: my_post.id, comment: {body: RandomData.random_sentence}
+          post :create, post_id: my_post.id, comment: comment_params
           expect(response).to redirect_to [my_topic, my_post]
         end
       end
@@ -117,6 +118,24 @@ RSpec.describe CommentsController, type: :controller do
   end
 
   context 'commenting on Topics' do
+    before { create_session(my_user) }
+    let(:referring_route) { Rails.application.routes.url_helpers.topic_path(my_topic) }
 
+    describe 'POST create' do
+      let(:make_request) { post :create, topic_id: my_topic.id, comment: comment_params }
+
+      it 'increases the comment count' do
+        expect { make_request }.to change { my_topic.comments.count }.by(1)
+      end
+    end
+
+    describe 'DELETE destroy' do
+      let!(:my_comment)  { my_topic.comments.create!(comment_params.merge(user: my_user)) }
+      let(:make_request) { delete :destroy, id: my_comment.id, topic_id: my_topic.id }
+
+      it 'descreases the comment count' do
+        expect{ make_request }.to change { my_topic.comments.count }.by(-1)
+      end
+    end
   end
 end
