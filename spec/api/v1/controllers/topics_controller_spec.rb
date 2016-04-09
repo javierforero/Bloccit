@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Api::V1::TopicsController, type: :controller do
   let(:my_user) { create(:user) }
   let(:my_topic) { create(:topic) }
-  let(:my_post) {create(:post, topic: my_topic, user: my_user)}
+  let!(:my_post) {create(:post, topic: my_topic, user: my_user)}
+  
   context "unauthenticated user" do
     it "GET index returns http success" do
       get :index
@@ -17,8 +18,10 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
 
     it "returns child posts" do
       get :show, id: my_topic.id
-      child_posts = JSON.parse response.body
-      expect(child_posts['posts']).to_not be_nil
+      topics_hash = JSON.parse response.body
+      array_of_post_hashes = topics_hash['posts']
+      expect(array_of_post_hashes).to_not be_nil
+      expect(array_of_post_hashes.first['id']).to eq(my_post.id)
     end
   end
 
@@ -35,12 +38,6 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
     it "GET show returns http success" do
       get :show, id: my_topic.id
       expect(response).to have_http_status(:success)
-    end
-    
-    it "returns child posts" do
-      get :show, id: my_topic.id
-      child_posts = JSON.parse response.body
-      expect(child_posts['posts']).to_not be_nil
     end
   end
 end

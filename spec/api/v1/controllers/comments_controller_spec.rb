@@ -17,6 +17,13 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
+    it "returns array of comments" do
+      get :show, id: my_comment.id
+      comments_hash = JSON.parse  response.body
+      expect(comments_hash['id']).to eq my_comment.id
+      expect(comments_hash['body']).to eq my_comment.body
+    end
+
   end
 
   context "unauthorized user" do

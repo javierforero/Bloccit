@@ -3,13 +3,13 @@ class Api::V1::PostsController < Api::V1::BaseController
   before_action :authorize_user, except: [:index, :show]
 
   def index
-    post = Post.all
+    posts = Post.all
     render json: post, status: 200
   end
 
   def show
     post = Post.find(params[:id])
-    render json: post.to_json(:include => :comments) , status: 200
+    render json: post.to_json(include: :comments) , status: 200
   end
 
 end
