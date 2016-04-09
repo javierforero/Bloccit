@@ -1,6 +1,6 @@
 class Post < ActiveRecord::Base
   belongs_to :topic
-  has_many :comments, dependent: :destroy
+  has_many :comments, dependent: :destroy, as: :commentable
   belongs_to :user
   has_many :labelings, as: :labelable
   has_many :labels, through: :labelings
